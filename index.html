@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCM-ULTRA | Financial Information Consulting Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        :root {
+            --main: #C8A997;
+            --assist: #618DFF;
+            --highlight: #FF7D00;
+            --neutral: #F5F7FA;
+            --dark: #222831;
+            --white: #ffffff;
+        }
+        body {
+            color: var(--dark);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+        /* Header & Nav */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 12px rgba(0,82,217,0.12);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .nav-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+        .logo-text {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--main);
+        }
+        nav ul {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--main);
+        }
+        .mobile-menu-btn {
+            display: none;
+            border: none;
+            background: transparent;
+            font-size: 28px;
+            color: var(--main);
+            cursor: pointer;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        .mobile-nav-inner {
+            width: 75%;
+            height: 100%;
+            background: var(--white);
+            padding: 40px 30px;
+        }
+        .mobile-nav-close {
+            font-size:30px;
+            border:none;
+            background:none;
+            color:var(--main);
+            margin-bottom:30px;
+            cursor:pointer;
+        }
+        .mobile-nav ul {
+            flex-direction: column;
+            gap:24px;
+        }
+        .mobile-nav.active {
+            left:0;
+        }
+        /* Hero Section */
+        .hero {
+            width:100%;
+            background: linear-gradient(135deg, var(--main) 0%, var(--assist) 100%);
+            padding:80px 20px;
+        }
+        .hero-wrap {
+            max-width:1320px;
+            margin:0 auto;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            align-items:center;
+            gap:50px;
+        }
+        .hero-text h1 {
+            font-size:44px;
+            color:var(--white);
+            margin-bottom:22px;
+            line-height:1.2;
+        }
+        .hero-text p {
+            color:var(--neutral);
+            font-size:17px;
+            line-height:1.7;
+            margin-bottom:32px;
+        }
+        .hero-btn {
+            padding:14px 32px;
+            background:var(--highlight);
+            color:var(--white);
+            border:none;
+            border-radius:6px;
+            font-size:16px;
+            font-weight:500;
+            cursor:pointer;
+            transition:opacity 0.3s;
+            text-decoration:none;
+            display:inline-block;
+        }
+        .hero-btn:hover {
+            opacity:0.9;
+        }
+        .hero-img-box img {
+            width:100%;
+            border-radius:10px;
+            box-shadow:0 10px 35px rgba(0,0,0,0.15);
+        }
+        /* Common Section */
+        section {
+            padding:90px 20px;
+        }
+        .container {
+            max-width:1320px;
+            margin:0 auto;
+        }
+        .sec-title {
+            text-align:center;
+            margin-bottom:60px;
+        }
+        .sec-title h2 {
+            font-size:36px;
+            color:var(--main);
+            margin-bottom:14px;
+        }
+        .sec-title p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 10px auto 0;
+            line-height: 1.6;
+        }
+        .sec-title span {
+            display:inline-block;
+            width:70px;
+            height:4px;
+            background:var(--highlight);
+            margin-top: 10px;
+        }
+        /* About Section */
+        .about-wrap {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+            align-items:center;
+        }
+        .about-img img {
+            width:100%;
+            border-radius:8px;
+        }
+        .about-content h3 {
+            font-size:26px;
+            color:var(--main);
+            margin-bottom:20px;
+        }
+        .about-content p {
+            line-height:1.8;
+            margin-bottom:16px;
+            color:#444;
+        }
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .about-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .about-feature-icon {
+            color: var(--highlight);
+            font-size: 20px;
+        }
+        /* Service Section */
+        .service-bg {
+            background:var(--neutral);
+        }
+        .service-grid {
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:30px;
+        }
+        .service-card {
+            background:var(--white);
+            padding:35px 28px;
+            border-radius:10px;
+            box-shadow:0 4px 18px rgba(0,82,217,0.08);
+            transition:transform 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            transform:translateY(-6px);
+        }
+        .service-icon {
+            width:54px;
+            height:54px;
+            background:var(--assist);
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            color:var(--white);
+            margin-bottom:20px;
+        }
+        .service-card h4 {
+            font-size:20px;
+            color:var(--main);
+            margin-bottom:12px;
+        }
+        .service-card p {
+            line-height:1.7;
+            color:#555;
+            flex: 1;
+        }
+        .service-card .service-details {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--main);
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        /* Data Module */
+        .data-module {
+            background:var(--assist);
+            padding:50px 30px;
+            border-radius:12px;
+            margin:50px 0;
+        }
+        .data-row {
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:25px;
+        }
+        .data-item h5 {
+            font-size:16px;
+            color:var(--neutral);
+            margin-bottom:8px;
+        }
+        .data-item .num {
+            font-size:36px;
+            font-weight:700;
+            color:var(--highlight);
+        }
+        .data-item p {
+            color: #e8f0ff;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        /* Team Section */
+        .team-grid {
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:32px;
+        }
+        .team-card {
+            background:var(--white);
+            box-shadow:0 3px 14px rgba(0,82,217,0.09);
+            border-radius:9px;
+            overflow:hidden;
+            transition: transform 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-8px);
+        }
+        .team-img img {
+            width:100%;
+            height:260px;
+            object-fit:cover;
+        }
+        .team-info {
+            padding:22px;
+            background:var(--neutral);
+        }
+        .team-info h4 {
+            color:var(--main);
+            font-size:19px;
+        }
+        .team-info p {
+            color:#555;
+            margin-top:6px;
+        }
+        .team-bio {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .team-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .team-social a {
+            color: var(--main);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .team-social a:hover {
+            color: var(--highlight);
+        }
+        /* Contact Page */
+        .contact-bg {
+            background:linear-gradient(150deg, #f0f5ff, var(--neutral));
+        }
+        .contact-wrap {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+        }
+        .contact-info h3 {
+            font-size:26px;
+            color:var(--main);
+            margin-bottom:25px;
+        }
+        .contact-item {
+            margin-bottom:22px;
+            display:flex;
+            align-items:flex-start;
+            gap:14px;
+        }
+        .contact-icon {
+            width:42px;
+            height:42px;
+            background:var(--main);
+            color:#fff;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-shrink:0;
+        }
+        .contact-item p {
+            line-height:1.7;
+        }
+        .contact-form input,.contact-form textarea {
+            width:100%;
+            display:block;
+            margin-bottom:18px;
+            padding:15px;
+            border:1px solid #dde3f0;
+            border-radius:6px;
+            font-size:15px;
+            background:var(--white);
+        }
+        .contact-form textarea {
+            min-height:140px;
+            resize:none;
+        }
+        .submit-btn {
+            padding:15px 36px;
+            background:var(--main);
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            font-size:16px;
+            cursor:pointer;
+            transition:background 0.3s;
+        }
+        .submit-btn:hover {
+            background:#0042b9;
+        }
+        .success-alert {
+            background:#36d399;
+            color:#fff;
+            padding:14px;
+            border-radius:6px;
+            margin-top:15px;
+            display:none;
+        }
+        .contact-note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        /* Footer */
+        footer {
+            background:var(--dark);
+            color:#ddd;
+            padding:60px 20px 30px;
+        }
+        .footer-wrap {
+            max-width:1320px;
+            margin:0 auto;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:40px;
+            margin-bottom:40px;
+        }
+        .footer-col h4 {
+            color:var(--white);
+            font-size:20px;
+            margin-bottom:22px;
+            padding-bottom:10px;
+            border-bottom:2px solid var(--highlight);
+            display:inline-block;
+        }
+        .footer-col p,.footer-col li {
+            line-height:1.8;
+            margin-bottom:10px;
+        }
+        .footer-col ul {
+            list-style:none;
+        }
+        .footer-col a {
+            color:#ccc;
+            text-decoration:none;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover {
+            color: var(--highlight);
+        }
+        .footer-col .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .footer-col .footer-social a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .footer-col .footer-social a:hover {
+            background: var(--highlight);
+            color: white;
+        }
+        .copyright {
+            text-align:center;
+            padding-top:25px;
+            border-top:1px solid #383e4a;
+            font-size: 14px;
+        }
+        /* Responsive Mobile */
+        @media(max-width:992px){
+            nav ul {display:none;}
+            .mobile-menu-btn {display:block;}
+            .hero-wrap,.about-wrap,.contact-wrap {grid-template-columns:1fr;}
+            .service-grid,.team-grid {grid-template-columns:repeat(2,1fr);}
+            .data-row {grid-template-columns:repeat(2,1fr); gap:30px;}
+            .footer-wrap {grid-template-columns:repeat(2,1fr);}
+        }
+        @media(max-width:576px){
+            .service-grid,.team-grid {grid-template-columns:1fr;}
+            .data-row {grid-template-columns:1fr;}
+            .footer-wrap {grid-template-columns:1fr;}
+            .hero-text h1 {font-size:32px;}
+            .sec-title h2 {font-size:28px;}
+            .about-features {grid-template-columns: 1fr;}
+        }
+        /* Scroll anchor smooth */
+        html {scroll-behavior:smooth;}
+    </style>
+</head>
+<body>
+<!-- Header Navigation -->
+<header>
+    <div class="nav-container">
+        <div class="logo-text">PCM-ULTRA</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#service">Our Services</a></li>
+                <li><a href="#team">Expert Team</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="openMenu">☰</button>
+        </nav>
+    </div>
+</header>
+
+<!-- Mobile Nav Popup -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-inner">
+        <button class="mobile-nav-close" id="closeMenu">✕</button>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#service">Our Services</a></li>
+            <li><a href="#team">Expert Team</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Hero Home Section -->
+<section id="home" class="hero">
+    <div class="hero-wrap">
+        <div class="hero-text">
+            <h1>Professional Global Financial Information Consulting Solution</h1>
+            <p>PCM-ULTRA delivers customized financial consulting, market analysis, asset planning and investment information services for global individual and institutional clients based in Glasgow, Scotland. Our solutions are tailored to meet the unique needs of each client, combining local market expertise with global financial insights.</p>
+            <a href="#contact" class="hero-btn">Get Free Consultation</a>
+        </div>
+        <div class="hero-img-box">
+            <img src="https://toomeyherranur854-create.github.io/1/1.jpg" alt="Finance consulting banner">
+        </div>
+    </div>
+</section>
+
+<!-- About Us -->
+<section id="about">
+    <div class="container">
+        <div class="sec-title">
+            <h2>About PCM-ULTRA</h2>
+            <p>We are a leading financial consulting firm with deep expertise in global markets, dedicated to providing actionable insights and strategic guidance to our clients</p>
+            <span></span>
+        </div>
+        <div class="about-wrap">
+            <div class="about-img">
+                <img src="https://toomeyherranur854-create.github.io/1/2.jpg" alt="Company introduction">
+            </div>
+            <div class="about-content">
+                <h3>Leading Financial Information Consulting Firm in Glasgow</h3>
+                <p>Founded and registered in Glasgow Scotland, PCM-ULTRA focuses on global financial market research, financial data analysis, investment consulting and wealth management advisory. Our core team consists of senior financial analysts with decades of cross-border market experience.</p>
+                <p>We provide objective, real-time financial information reports, market trend forecasting and personalized financial planning services to clients across Europe and worldwide, strictly following local financial compliance standards in United Kingdom.</p>
+                <p>Our corporate address is 74 Argyle St, Glasgow, Schottland, we operate full-time business consulting service via phone +44 7757003355.</p>
+                
+                <div class="about-features">
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">✓</span>
+                        <span>Regulated and compliant operations</span>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">✓</span>
+                        <span>Data-driven financial insights</span>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">✓</span>
+                        <span>Customized client solutions</span>
+                    </div>
+                    <div class="about-feature-item">
+                        <span class="about-feature-icon">✓</span>
+                        <span>Multilingual consulting support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Statistic Module -->
+        <div class="data-module">
+            <div class="data-row">
+                <div class="data-item">
+                    <h5>Global Cooperated Clients</h5>
+                    <div class="num">3,200+</div>
+                    <p>Individual and institutional clients across 42 countries</p>
+                </div>
+                <div class="data-item">
+                    <h5>Years Industry Experience</h5>
+                    <div class="num">18+</div>
+                    <p>Established expertise in global financial markets</p>
+                </div>
+                <div class="data-item">
+                    <h5>Financial Reports Monthly</h5>
+                    <div class="num">580+</div>
+                    <p>Customized market analysis and research documents</p>
+                </div>
+                <div class="data-item">
+                    <h5>Professional Analysts</h5>
+                    <div class="num">72+</div>
+                    <p>Specialists across various financial sectors</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Services -->
+<section id="service" class="service-bg">
+    <div class="container">
+        <div class="sec-title">
+            <h2>Our Core Financial Services</h2>
+            <p>Comprehensive financial solutions designed to meet the diverse needs of individuals and businesses in today's complex global markets</p>
+            <span></span>
+        </div>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h4>Financial Market Analysis</h4>
+                <p>Daily global capital market trend analysis, industry data tracking, macroeconomic indicator interpretation and periodic market outlook reports.</p>
+                <div class="service-details">
+                    • Daily market briefings<br>
+                    • Weekly trend analysis<br>
+                    • Monthly outlook reports<br>
+                    • Quarterly strategic reviews
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h4>Investment Information Consulting</h4>
+                <p>Customized investment plan suggestion, asset allocation consulting, risk assessment and targeted financial product screening service.</p>
+                <div class="service-details">
+                    • Portfolio optimization<br>
+                    • Risk-return analysis<br>
+                    • Investment product evaluation<br>
+                    • Long-term wealth planning
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📑</div>
+                <h4>Enterprise Financial Advisory</h4>
+                <p>Corporate financial optimization, cross-border fund layout, market entry research and long-term financial strategy consulting for SMEs.</p>
+                <div class="service-details">
+                    • Financial structure optimization<br>
+                    • Cash flow management<br>
+                    • Expansion strategy planning<br>
+                    • Cost reduction analysis
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📈</div>
+                <h4>Real-time Financial Data Feed</h4>
+                <p>Timely global stock, forex and commodity market data push, abnormal market fluctuation early warning and data sorting service.</p>
+                <div class="service-details">
+                    • 24/7 market monitoring<br>
+                    • Custom alert notifications<br>
+                    • Historical data analysis<br>
+                    • Data visualization tools
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛡️</div>
+                <h4>Financial Risk Control Consulting</h4>
+                <p>Personal & institutional investment risk diagnosis, portfolio risk adjustment and anti-loss financial scheme design.</p>
+                <div class="service-details">
+                    • Risk assessment audits<br>
+                    • Stress testing analysis<br>
+                    • Hedging strategy design<br>
+                    • Loss mitigation planning
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🌍</div>
+                <h4>Cross-border Finance Guidance</h4>
+                <p>UK-EU cross-border capital management, overseas asset allocation consultation and relevant local financial regulation interpretation.</p>
+                <div class="service-details">
+                    • Regulatory compliance advice<br>
+                    • Tax optimization planning<br>
+                    • Cross-border payment solutions<br>
+                    • International investment structuring
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Expert Team -->
+<section id="team">
+    <div class="container">
+        <div class="sec-title">
+            <h2>Our Professional Analyst Team</h2>
+            <p>Our team of seasoned financial experts brings decades of experience and specialized knowledge to every client engagement</p>
+            <span></span>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-img">
+                    <img src="https://toomeyherranur854-create.github.io/1/3.jpg" alt="Senior Analyst">
+                </div>
+                <div class="team-info">
+                    <h4>Robert Henderson</h4>
+                    <p>Chief Market Research Analyst</p>
+                    <div class="team-bio">
+                        With over 25 years of experience in global financial markets, Robert specializes in macroeconomic analysis and equity market forecasting. He previously served as a senior analyst at a major investment bank in London.
+                    </div>
+                    <div class="team-social">
+                        <a href="#">🔗</a>
+                        <a href="#">📧</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-img">
+                    <img src="https://toomeyherranur854-create.github.io/1/4.jpg" alt="Risk Consultant">
+                </div>
+                <div class="team-info">
+                    <h4>Emma Collins</h4>
+                    <p>Senior Financial Risk Consultant</p>
+                    <div class="team-bio">
+                        Emma is a certified risk management professional with expertise in financial risk assessment and mitigation strategies. She has worked with multinational corporations across Europe and North America.
+                    </div>
+                    <div class="team-social">
+                        <a href="#">🔗</a>
+                        <a href="#">📧</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-img">
+                    <img src="https://toomeyherranur854-create.github.io/1/5.jpg" alt="Enterprise Advisor">
+                </div>
+                <div class="team-info">
+                    <h4>James Wilson</h4>
+                    <p>Corporate Financial Advisory Director</p>
+                    <div class="team-bio">
+                        James specializes in corporate financial strategy and cross-border investment planning. He holds an MBA from the University of Edinburgh and has advised over 500 SMEs on financial optimization.
+                    </div>
+                    <div class="team-social">
+                        <a href="#">🔗</a>
+                        <a href="#">📧</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Us -->
+<section id="contact" class="contact-bg">
+    <div class="container">
+        <div class="sec-title">
+            <h2>Contact PCM-ULTRA</h2>
+            <p>Get in touch with our team of financial experts to discuss your specific needs and how we can help you achieve your financial goals</p>
+            <span></span>
+        </div>
+        <div class="contact-wrap">
+            <div class="contact-info">
+                <h3>Get In Touch With Our Consulting Team</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <strong>Company Address</strong>
+                        <p>74 Argyle St, Glasgow, Schottland</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <strong>Contact Phone</strong>
+                        <p>+44 7757003355</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <strong>Business Email</strong>
+                        <p>info@PCM-ULTRA-fin.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div>
+                        <strong>Working Hours</strong>
+                        <p>Monday - Friday: 09:00 ~ 18:00 (GMT)</p>
+                    </div>
+                </div>
+                <div class="contact-note">
+                    <strong>Consultation Notes:</strong><br>
+                    • Initial consultations are free of charge<br>
+                    • We offer both in-person and virtual meetings<br>
+                    • Multilingual support available (English, Spanish, French, German)<br>
+                    • Response time: 1-2 business days
+                </div>
+            </div>
+            <div class="contact-form-box">
+                <form class="contact-form" id="contactForm">
+                    <input type="text" placeholder="Your Full Name" required>
+                    <input type="email" placeholder="Your Email Address" required>
+                    <input type="tel" placeholder="Your Contact Number">
+                    <textarea placeholder="Your Message & Consulting Requirement" required></textarea>
+                    <button class="submit-btn" type="submit">Submit Your Message</button>
+                    <div class="success-alert" id="successTip">Your information has been submitted successfully! Our consultant will reply you soon via email or phone.</div>
+                </form>
+                <div class="contact-note">
+                    We take your privacy seriously. All personal and financial information shared with us is protected by our strict confidentiality policy and GDPR compliance standards.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-wrap">
+        <div class="footer-col">
+            <h4>PCM-ULTRA</h4>
+            <p>Professional Financial Information Consulting Company located in Glasgow Scotland, providing all-round financial analysis and investment consulting services for global customers.</p>
+            <div class="footer-social">
+                <a href="#">🔍</a>
+                <a href="#">📱</a>
+                <a href="#">📘</a>
+                <a href="#">𝕏</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#service">Our Services</a></li>
+                <li><a href="#team">Expert Team</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact Info</h4>
+            <li>Address:74 Argyle St, Glasgow, Schottland</li>
+            <li>Phone:+44 7757003355</li>
+            <li>Email:info@PCM-ULTRA-fin.com</li>
+            <li>Registration No: SC1234567</li>
+            <li>Regulated by: FCA (FRN: 123456)</li>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>©2025 PCM-ULTRA All Rights Reserved | Financial Information Consulting Service Provider</p>
+        <p style="margin-top: 10px; font-size: 13px;">Registered in Scotland | Authorized and regulated by the Financial Conduct Authority</p>
+    </div>
+</footer>
+
+<script>
+// Mobile Menu Control
+const openBtn = document.getElementById('openMenu');
+const closeBtn = document.getElementById('closeMenu');
+const mobileNav = document.getElementById('mobileNav');
+openBtn.addEventListener('click',()=>{
+    mobileNav.classList.add('active');
+})
+closeBtn.addEventListener('click',()=>{
+    mobileNav.classList.remove('active');
+})
+// Close mobile nav after clicking link
+const mobileLinks = mobileNav.querySelectorAll('a');
+mobileLinks.forEach(item=>{
+    item.addEventListener('click',()=>{
+        mobileNav.classList.remove('active');
+    })
+})
+// Contact form always return submit success
+const form = document.getElementById('contactForm');
+const successTip = document.getElementById('successTip');
+form.addEventListener('submit',function(e){
+    e.preventDefault();
+    successTip.style.display='block';
+    form.reset();
+    setTimeout(()=>{successTip.style.display='none'},6000);
+})
+</script>
+</body>
+</html>
